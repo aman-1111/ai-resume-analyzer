@@ -1,49 +1,46 @@
 import re
 
-SKILLS = [
-    "python",
-    "java",
-    "javascript",
-    "react",
-    "node",
-    "sql",
-    "mysql",
-    "mongodb",
-    "power bi",
-    "excel",
-    "tableau",
-    "aws",
-    "docker",
-    "git",
-    "html",
-    "css",
-    "machine learning",
-    "fastapi",
-    "flask"
+TECH_SKILLS = [
+    "python", "java", "javascript", "typescript",
+    "react", "angular", "vue",
+    "node", "express", "fastapi", "flask",
+    "sql", "mysql", "postgresql", "mongodb",
+    "html", "css", "tailwind",
+    "git", "github", "docker", "kubernetes",
+    "aws", "azure", "gcp",
+    "excel", "power bi", "tableau",
+    "machine learning", "tensorflow", "pytorch",
+    "pandas", "numpy"
 ]
+
+
+def extract_skills(text):
+    text = text.lower()
+    found = set()
+
+    for skill in TECH_SKILLS:
+        pattern = r"\b" + re.escape(skill) + r"\b"
+        if re.search(pattern, text):
+            found.add(skill)
+
+    return found
+
 
 def calculate_ats(resume_text, job_description):
 
-    resume = resume_text.lower()
-    jd = job_description.lower()
+    resume_skills = extract_skills(resume_text)
+    jd_skills = extract_skills(job_description)
 
-    matched = []
-    missing = []
+    matched = sorted(list(resume_skills & jd_skills))
+    missing = sorted(list(jd_skills - resume_skills))
 
-    for skill in SKILLS:
-        if skill in jd:
-            if skill in resume:
-                matched.append(skill)
-            else:
-                missing.append(skill)
-
-    if len(matched)+len(missing)==0:
-        score=0
+    if len(jd_skills) == 0:
+        score = 0
     else:
-        score=int((len(matched)/(len(matched)+len(missing)))*100)
+        score = round((len(matched) / len(jd_skills)) * 100)
 
     return {
-        "score":score,
-        "matched":matched,
-        "missing":missing
+        "ats_score": score,
+        "matched_skills": matched,
+        "missing_skills": missing
     }

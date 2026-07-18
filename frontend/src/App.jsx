@@ -188,7 +188,16 @@ function App() {
 <h2>Resume Statistics</h2>
 <div className="skills-card">
   <h2>ATS Score Breakdown</h2>
+  <div className="skills-card">
+  <h2>Resume Section Analysis</h2>
 
+  {Object.entries(result.ats.sections).map(([section, found]) => (
+    <div className="section-row" key={section}>
+      <span>{found ? "✅" : "❌"} {section}</span>
+      <strong>{found ? "Found" : "Missing"}</strong>
+    </div>
+  ))}
+</div>
   <div className="breakdown-row">
     <span>Skills Match</span>
     <strong>{result.ats.score_breakdown.skills} / 50</strong>

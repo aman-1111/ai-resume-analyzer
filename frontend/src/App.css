@@ -221,3 +221,18 @@ button:hover {
 .breakdown-row strong {
   color: #2563eb;
 }
+.section-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-row:last-child {
+  border-bottom: none;
+}
+
+.section-row strong {
+  color: #2563eb;
+}

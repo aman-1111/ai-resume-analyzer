@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "./App.css";
@@ -8,6 +8,15 @@ function App() {
   const [jobDescription, setJobDescription] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   // -----------------------------
   // Download PDF Report
@@ -134,7 +143,12 @@ function App() {
 
   return (
     <div className="app">
-
+<div
+  className="theme-toggle"
+  onClick={() => setDarkMode(!darkMode)}
+>
+  {darkMode ? "☀️" : "🌙"}
+</div>
       <div className="header">
 
         <h1>🤖 Smart ATS Resume Analyzer</h1>
@@ -149,15 +163,38 @@ function App() {
 
       <div className="card">
 
-        <label className="label">
-          Upload Resume
-        </label>
+      <label className="label">
+  Upload Resume
+</label>
 
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={(e) => setFile(e.target.files[0])}
-        />
+<div
+  className="drop-zone"
+  onDragOver={(e) => e.preventDefault()}
+  onDrop={(e) => {
+    e.preventDefault();
+    setFile(e.dataTransfer.files[0]);
+  }}
+>
+  <p>
+    📄 Drag & Drop Resume Here
+  </p>
+
+  <p style={{ margin: "10px 0" }}>
+    OR
+  </p>
+
+  <input
+    type="file"
+    accept=".pdf"
+    onChange={(e) => setFile(e.target.files[0])}
+  />
+
+  {file && (
+    <p style={{ marginTop: 15 }}>
+      ✅ {file.name}
+    </p>
+  )}
+</div>
 
         <label className="label">
           Job Description
@@ -189,11 +226,17 @@ function App() {
 
             <h2>ATS Score</h2>
 
-            <div className="circle">
-
-              {result.ats.ats_score}%
-
-            </div>
+            <div
+  className="circle"
+  style={{
+    background: `conic-gradient(
+      #22c55e ${result.ats.ats_score * 3.6}deg,
+      #d1d5db 0deg
+    )`
+  }}
+>
+  <span>{result.ats.ats_score}%</span>
+</div>
 
             <div
               className={`fit-badge ${getBadgeColor()}`}

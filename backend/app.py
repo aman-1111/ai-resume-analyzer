@@ -5,6 +5,7 @@ import os
 
 from utils.pdf_parser import extract_text_from_pdf
 from utils.ats import calculate_ats
+from utils.gemini import analyze_resume
 
 app = FastAPI(
     title="AI Resume Analyzer API",
@@ -19,16 +20,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Home Route
 @app.get("/")
 def home():
     return {
         "message": "AI Resume Analyzer Backend Running 🚀"
     }
 
-
+# Upload Resume Route
 @app.post("/upload-resume")
 async def upload_resume(file: UploadFile = File(...)):
+
     os.makedirs("uploads", exist_ok=True)
 
     file_path = f"uploads/{file.filename}"
@@ -43,12 +45,13 @@ async def upload_resume(file: UploadFile = File(...)):
         "text": extracted_text
     }
 
-
+# Analyze Resume Route
 @app.post("/analyze")
-async def analyze_resume(
+async def analyze(
     file: UploadFile = File(...),
     job_description: str = Form(...)
 ):
+
     os.makedirs("uploads", exist_ok=True)
 
     file_path = f"uploads/{file.filename}"
@@ -58,9 +61,17 @@ async def analyze_resume(
 
     resume_text = extract_text_from_pdf(file_path)
 
-    result = calculate_ats(
-        resume_text=resume_text,
-        job_description=job_description
+    ats_result = calculate_ats(
+        resume_text,
+        job_description
     )
 
-    return result
+    ai_result = analyze_resume(
+        resume_text,
+        job_description
+    )
+
+    return {
+        "ats": ats_result,
+        "ai_analysis": ai_result
+    }

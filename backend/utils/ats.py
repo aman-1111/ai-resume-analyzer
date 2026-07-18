@@ -98,26 +98,37 @@ def calculate_ats(resume_text, job_description):
     final_score = min(final_score, 100)
 
     return {
-        "ats_score": final_score,
-        "matched_skills": matched,
-        "missing_skills": missing,
+    "ats_score": final_score,
+    "matched_skills": matched,
+    "missing_skills": missing,
 
-        "statistics": {
-            "skills_found": len(resume_skills),
-            "matched_skills": len(matched),
-            "missing_skills": len(missing),
-            "projects_detected": "Yes" if project_score else "No",
-            "experience_detected": "Yes" if experience_score else "No",
-            "education_detected": "Yes" if education_score else "No"
-        },
+    # Used by Resume Statistics Card
+    "statistics": {
+    "total_skills": len(resume_skills),
+    "projects": len(re.findall(r"\bproject\b", resume_lower)),
+    "experience": len(
+        re.findall(
+            r"\b(experience|internship|developer|engineer|worked)\b",
+            resume_lower
+        )
+    ),
+    "education": len(
+        re.findall(
+            r"\b(b\.tech|btech|bachelor|master|degree|college|university)\b",
+            resume_lower
+        )
+    ),
+},
 
-        "score_breakdown": {
-            "skills": round(skills_score),
-            "projects": project_score,
-            "experience": experience_score,
-            "education": education_score,
-            "resume_quality": quality_score
-        },
+    # Used by ATS Breakdown Card
+    "breakdown": {
+        "skills": round(skills_score),
+        "projects": project_score,
+        "experience": experience_score,
+        "education": education_score,
+        "quality": quality_score,
+    },
 
-        "sections": sections
-    }
+    # Used by Resume Section Analysis
+    "sections": sections
+}

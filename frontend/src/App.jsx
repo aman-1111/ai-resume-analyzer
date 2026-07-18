@@ -183,7 +183,72 @@ function App() {
             </ul>
 
           </div>
+          <div className="skills-card">
 
+<h2>Resume Statistics</h2>
+<div className="skills-card">
+  <h2>ATS Score Breakdown</h2>
+
+  <div className="breakdown-row">
+    <span>Skills Match</span>
+    <strong>{result.ats.score_breakdown.skills} / 50</strong>
+  </div>
+
+  <div className="breakdown-row">
+    <span>Projects</span>
+    <strong>{result.ats.score_breakdown.projects} / 20</strong>
+  </div>
+
+  <div className="breakdown-row">
+    <span>Experience</span>
+    <strong>{result.ats.score_breakdown.experience} / 15</strong>
+  </div>
+
+  <div className="breakdown-row">
+    <span>Education</span>
+    <strong>{result.ats.score_breakdown.education} / 10</strong>
+  </div>
+
+  <div className="breakdown-row">
+    <span>Resume Quality</span>
+    <strong>{result.ats.score_breakdown.resume_quality} / 5</strong>
+  </div>
+</div>  
+<div className="stats-grid">
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.skills_found}</h3>
+    <p>Skills Found</p>
+  </div>
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.matched_skills}</h3>
+    <p>Matched Skills</p>
+  </div>
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.missing_skills}</h3>
+    <p>Missing Skills</p>
+  </div>
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.projects_detected}</h3>
+    <p>Projects</p>
+  </div>
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.experience_detected}</h3>
+    <p>Experience</p>
+  </div>
+
+  <div className="stat-box">
+    <h3>{result.ats.statistics.education_detected}</h3>
+    <p>Education</p>
+  </div>
+
+</div>
+
+</div>
           <div className="question-card">
 
             <h2>Interview Questions</h2>

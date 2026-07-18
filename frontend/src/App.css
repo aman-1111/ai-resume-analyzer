@@ -173,3 +173,51 @@ button:hover {
   }
 
 }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-box {
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.stat-box:hover {
+  transform: translateY(-4px);
+}
+
+.stat-box h3 {
+  color: #2563eb;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.stat-box p {
+  color: #555;
+  font-size: 14px;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.breakdown-row:last-child {
+  border-bottom: none;
+}
+
+.breakdown-row span {
+  font-weight: 500;
+}
+
+.breakdown-row strong {
+  color: #2563eb;
+}

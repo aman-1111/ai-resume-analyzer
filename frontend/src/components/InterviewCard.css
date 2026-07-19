@@ -1,0 +1,73 @@
+.interview-card{
+
+    background:rgba(255,255,255,.15);
+    
+    backdrop-filter:blur(18px);
+    
+    padding:30px;
+    
+    border-radius:20px;
+    
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    
+    }
+    
+    .question-list{
+    
+    display:flex;
+    
+    flex-direction:column;
+    
+    gap:18px;
+    
+    }
+    
+    .question-item{
+    
+    display:flex;
+    
+    gap:18px;
+    
+    padding:15px;
+    
+    background:rgba(255,255,255,.08);
+    
+    border-radius:14px;
+    
+    transition:.3s;
+    
+    }
+    
+    .question-item:hover{
+    
+    transform:translateY(-4px);
+    
+    }
+    
+    .question-number{
+    
+    min-width:45px;
+    
+    height:45px;
+    
+    border-radius:50%;
+    
+    background:#16a34a;
+    
+    display:flex;
+    
+    align-items:center;
+    
+    justify-content:center;
+    
+    font-weight:bold;
+    
+    color:white;
+    
+    }
+    
+    .question-text{
+    
+    line-height:1.7;
+    
+    }

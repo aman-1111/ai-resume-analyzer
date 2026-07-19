@@ -2,6 +2,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "./App.css";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import ATSCard from "./components/ATSCard";
+import UploadCard from "./components/UploadCard";
+import SkillsCard from "./components/SkillsCard";
+import StatsCard from "./components/StatsCard";
+import BreakdownCard from "./components/BreakdownCard";
+import SectionsCard from "./components/SectionsCard";
+import SuggestionCard from "./components/SuggestionCard";
+import RoadmapCard from "./components/RoadmapCard";
+import InterviewCard from "./components/InterviewCard";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -143,6 +154,10 @@ function App() {
 
   return (
     <div className="app">
+      <Sidebar />
+
+<div style={{ marginLeft: "280px" }}>
+      <Navbar />
 <div
   className="theme-toggle"
   onClick={() => setDarkMode(!darkMode)}
@@ -161,324 +176,66 @@ function App() {
 
       </div>
 
-      <div className="card">
-
-      <label className="label">
-  Upload Resume
-</label>
-
-<div
-  className="drop-zone"
-  onDragOver={(e) => e.preventDefault()}
-  onDrop={(e) => {
-    e.preventDefault();
-    setFile(e.dataTransfer.files[0]);
-  }}
->
-  <p>
-    📄 Drag & Drop Resume Here
-  </p>
-
-  <p style={{ margin: "10px 0" }}>
-    OR
-  </p>
-
-  <input
-    type="file"
-    accept=".pdf"
-    onChange={(e) => setFile(e.target.files[0])}
-  />
-
-  {file && (
-    <p style={{ marginTop: 15 }}>
-      ✅ {file.name}
-    </p>
-  )}
-</div>
-
-        <label className="label">
-          Job Description
-        </label>
-
-        <textarea
-          placeholder="Paste Job Description..."
-          value={jobDescription}
-          onChange={(e) =>
-            setJobDescription(e.target.value)
-          }
-        />
-
-        <button onClick={analyzeResume}>
-          {loading
-            ? "Analyzing..."
-            : "Analyze Resume"}
-        </button>
-
-      </div>
-
+      <UploadCard
+  file={file}
+  setFile={setFile}
+  jobDescription={jobDescription}
+  setJobDescription={setJobDescription}
+  analyzeResume={analyzeResume}
+  loading={loading}
+/>
       {result && (
 
         <div className="result-container">
 
           {/* ATS CARD */}
 
-          <div className="score-card">
-
-            <h2>ATS Score</h2>
-
-            <div
-  className="circle"
-  style={{
-    background: `conic-gradient(
-      #22c55e ${result.ats.ats_score * 3.6}deg,
-      #d1d5db 0deg
-    )`
-  }}
->
-  <span>{result.ats.ats_score}%</span>
-</div>
-
-            <div
-              className={`fit-badge ${getBadgeColor()}`}
-            >
-              {result.ai_analysis.job_fit}
-            </div>
-
-            <div className="progress">
-
-              <div
-                className="progress-fill"
-                style={{
-                  width:
-                    result.ats.ats_score + "%"
-                }}
-              ></div>
-
-            </div>
-
-          </div>
+          <ATSCard
+  atsScore={result.ats.ats_score}
+  jobFit={result.ai_analysis.job_fit}
+/>
 
           {/* MATCHED SKILLS */}
 
-          <div className="skills-card">
-
-            <h2>Matched Skills</h2>
-
-            <div className="badges">
-
-              {result.ats.matched_skills.length > 0 ? (
-
-                result.ats.matched_skills.map(
-                  (skill, index) => (
-                    <span
-                      className="badge green"
-                      key={index}
-                    >
-                      {skill}
-                    </span>
-                  )
-                )
-
-              ) : (
-
-                <p>No matched skills</p>
-
-              )}
-
-            </div>
-
-            <h2
-              style={{
-                marginTop: "30px"
-              }}
-            >
-              Missing Skills
-            </h2>
-
-            <div className="badges">
-
-              {result.ats.missing_skills.length > 0 ? (
-
-                result.ats.missing_skills.map(
-                  (skill, index) => (
-                    <span
-                      className="badge red"
-                      key={index}
-                    >
-                      {skill}
-                    </span>
-                  )
-                )
-
-              ) : (
-
-                <p>No missing skills 🎉</p>
-
-              )}
-
-            </div>
-
-          </div>
+          <SkillsCard
+  matchedSkills={result.ats.matched_skills}
+  missingSkills={result.ats.missing_skills}
+/>
                     {/* Resume Statistics */}
 
-                    <div className="stats-card">
-
-<h2>Resume Statistics</h2>
-
-<div className="stats-grid">
-
-  <div className="stat-box">
-    <h3>{result.ats.statistics.total_skills}</h3>
-    <p>Total Skills</p>
-  </div>
-
-  <div className="stat-box">
-    <h3>{result.ats.statistics.projects}</h3>
-    <p>Projects</p>
-  </div>
-
-  <div className="stat-box">
-    <h3>{result.ats.statistics.experience}</h3>
-    <p>Experience</p>
-  </div>
-
-  <div className="stat-box">
-    <h3>{result.ats.statistics.education}</h3>
-    <p>Education</p>
-  </div>
-
-</div>
-
-</div>
+                    <StatsCard
+  statistics={result.ats.statistics}
+/>
 
 {/* ATS Score Breakdown */}
 
-<div className="breakdown-card">
-
-<h2>ATS Score Breakdown</h2>
-
-<table>
-
-  <tbody>
-
-    <tr>
-      <td>Skills Match</td>
-      <td>{result.ats.breakdown.skills}/50</td>
-    </tr>
-
-    <tr>
-      <td>Projects</td>
-      <td>{result.ats.breakdown.projects}/20</td>
-    </tr>
-
-    <tr>
-      <td>Experience</td>
-      <td>{result.ats.breakdown.experience}/15</td>
-    </tr>
-
-    <tr>
-      <td>Education</td>
-      <td>{result.ats.breakdown.education}/10</td>
-    </tr>
-
-    <tr>
-      <td>Resume Quality</td>
-      <td>{result.ats.breakdown.quality}/5</td>
-    </tr>
-
-  </tbody>
-
-</table>
-
-</div>
+<BreakdownCard
+    breakdown={result.ats.breakdown}
+/>
 
 {/* Resume Sections */}
 
-<div className="sections-card">
-
-<h2>Resume Section Analysis</h2>
-
-<ul>
-
-  {Object.entries(result.ats.sections).map(
-    ([section, present]) => (
-
-      <li key={section}>
-
-        {present ? "✅" : "❌"}{" "}
-        {section.charAt(0).toUpperCase() +
-          section.slice(1)}
-
-      </li>
-
-    )
-  )}
-
-</ul>
-
-</div>
+<SectionsCard
+    sections={result.ats.sections}
+/>
 
 {/* AI Suggestions */}
 
-<div className="suggestion-card">
-
-<h2>AI Suggestions</h2>
-
-<ul>
-
-  {result.ai_analysis.suggestions.map(
-    (item, index) => (
-
-      <li key={index}>{item}</li>
-
-    )
-  )}
-
-</ul>
-
-</div>
+<SuggestionCard
+    suggestions={result.ai_analysis.suggestions}
+/>
 
 {/* Resume Roadmap */}
 
-<div className="roadmap-card">
-
-<h2>Resume Improvement Roadmap</h2>
-
-<ol>
-
-  {result.ai_analysis.roadmap.map(
-    (item, index) => (
-
-      <li key={index}>{item}</li>
-
-    )
-  )}
-
-</ol>
-
-</div>
+<RoadmapCard
+    roadmap={result.ai_analysis.roadmap}
+/>
 
 {/* Interview Questions */}
 
-<div className="interview-card">
-
-<h2>Interview Questions</h2>
-
-<ol>
-
-  {result.ai_analysis.interview_questions.map(
-    (question, index) => (
-
-      <li key={index}>
-        {question}
-      </li>
-
-    )
-  )}
-
-</ol>
-
-</div>
+<InterviewCard
+    questions={result.ai_analysis.interview_questions}
+/>
 
 {/* Download Button */}
 
@@ -497,6 +254,7 @@ function App() {
 
 )}
 
+</div>
 </div>
 
 );

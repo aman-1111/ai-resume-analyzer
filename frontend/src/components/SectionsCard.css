@@ -1,0 +1,65 @@
+.sections-card{
+
+    background:rgba(255,255,255,.15);
+    
+    backdrop-filter:blur(18px);
+    
+    padding:30px;
+    
+    border-radius:20px;
+    
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    
+    }
+    
+    .sections-list{
+    
+    display:flex;
+    
+    flex-direction:column;
+    
+    gap:12px;
+    
+    margin-top:20px;
+    
+    }
+    
+    .section-item{
+    
+    display:flex;
+    
+    justify-content:space-between;
+    
+    align-items:center;
+    
+    padding:15px 18px;
+    
+    border-radius:12px;
+    
+    font-weight:500;
+    
+    transition:.3s;
+    
+    }
+    
+    .present{
+    
+    background:rgba(22,163,74,.15);
+    
+    border-left:5px solid #16a34a;
+    
+    }
+    
+    .missing{
+    
+    background:rgba(220,38,38,.15);
+    
+    border-left:5px solid #dc2626;
+    
+    }
+    
+    .section-item:hover{
+    
+    transform:translateX(5px);
+    
+    }

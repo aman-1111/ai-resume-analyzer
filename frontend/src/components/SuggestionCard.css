@@ -1,0 +1,43 @@
+.suggestion-card{
+
+    background:rgba(255,255,255,.15);
+    
+    backdrop-filter:blur(18px);
+    
+    padding:30px;
+    
+    border-radius:20px;
+    
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    
+    }
+    
+    .suggestion-card ul{
+    
+    margin-top:20px;
+    
+    padding-left:20px;
+    
+    }
+    
+    .suggestion-card li{
+    
+    margin-bottom:15px;
+    
+    line-height:1.8;
+    
+    padding:10px;
+    
+    background:rgba(255,255,255,.08);
+    
+    border-radius:10px;
+    
+    transition:.3s;
+    
+    }
+    
+    .suggestion-card li:hover{
+    
+    transform:translateX(6px);
+    
+    }

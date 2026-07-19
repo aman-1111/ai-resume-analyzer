@@ -1,0 +1,75 @@
+.upload-card{
+
+    background:rgba(255,255,255,.15);
+    
+    backdrop-filter:blur(20px);
+    
+    padding:30px;
+    
+    border-radius:20px;
+    
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    
+    }
+    
+    .upload-card h2{
+    
+    margin-bottom:20px;
+    
+    }
+    
+    .or-text{
+    
+    margin:15px 0;
+    
+    font-weight:bold;
+    
+    }
+    
+    .selected-file{
+    
+    margin-top:15px;
+    
+    display:flex;
+    
+    justify-content:space-between;
+    
+    align-items:center;
+    
+    background:#ecfdf5;
+    
+    padding:12px;
+    
+    border-radius:10px;
+    
+    }
+    
+    .remove-btn{
+    
+    width:auto;
+    
+    padding:8px 14px;
+    
+    background:#dc2626;
+    
+    }
+    
+    .remove-btn:hover{
+    
+    background:#b91c1c;
+    
+    }
+    
+    .upload-card textarea{
+    
+    margin-top:15px;
+    
+    height:170px;
+    
+    }
+    
+    .analyze-btn{
+    
+    margin-top:20px;
+    
+    }

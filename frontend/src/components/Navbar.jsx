@@ -1,16 +1,31 @@
 import "./Navbar.css";
 
-function Navbar() {
+function Navbar({
+  scrollToTop,
+  scrollToUpload,
+  scrollToReport,
+}) {
   return (
     <nav className="navbar">
-      <div className="logo">
+      <div
+        className="logo"
+        onClick={scrollToTop}
+      >
         🤖 Smart ATS
       </div>
 
       <div className="nav-links">
-        <span>Dashboard</span>
-        <span>Resume Analyzer</span>
-        <span>Reports</span>
+        <span onClick={scrollToTop}>
+          Dashboard
+        </span>
+
+        <span onClick={scrollToUpload}>
+          Resume Analyzer
+        </span>
+
+        <span onClick={scrollToReport}>
+          Reports
+        </span>
       </div>
     </nav>
   );

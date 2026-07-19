@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "./App.css";
@@ -20,7 +20,29 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-
+  const topRef = useRef(null);
+  const uploadRef = useRef(null);
+  const reportRef = useRef(null);
+  const suggestionsRef = useRef(null);
+  const interviewRef = useRef(null);
+  const settingsRef = useRef(null);
+  const scrollToTop = () =>
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  
+  const scrollToUpload = () =>
+    uploadRef.current?.scrollIntoView({ behavior: "smooth" });
+  
+  const scrollToReport = () =>
+    reportRef.current?.scrollIntoView({ behavior: "smooth" });
+  
+  const scrollToSuggestions = () =>
+    suggestionsRef.current?.scrollIntoView({ behavior: "smooth" });
+  
+  const scrollToInterview = () =>
+    interviewRef.current?.scrollIntoView({ behavior: "smooth" });
+  
+  const scrollToSettings = () =>
+    settingsRef.current?.scrollIntoView({ behavior: "smooth" });
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark");
@@ -154,17 +176,27 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
-
+      <Sidebar
+  scrollToTop={scrollToTop}
+  scrollToUpload={scrollToUpload}
+  scrollToReport={scrollToReport}
+  scrollToSuggestions={scrollToSuggestions}
+  scrollToInterview={scrollToInterview}
+  scrollToSettings={scrollToSettings}
+/>
 <div style={{ marginLeft: "280px" }}>
-      <Navbar />
+<Navbar
+  scrollToTop={scrollToTop}
+  scrollToUpload={scrollToUpload}
+  scrollToReport={scrollToReport}
+/>
 <div
   className="theme-toggle"
   onClick={() => setDarkMode(!darkMode)}
 >
   {darkMode ? "☀️" : "🌙"}
 </div>
-      <div className="header">
+<div className="header" ref={topRef}>
 
         <h1>🤖 Smart ATS Resume Analyzer</h1>
 
@@ -176,17 +208,19 @@ function App() {
 
       </div>
 
-      <UploadCard
-  file={file}
-  setFile={setFile}
-  jobDescription={jobDescription}
-  setJobDescription={setJobDescription}
-  analyzeResume={analyzeResume}
-  loading={loading}
-/>
+      <div ref={uploadRef}>
+  <UploadCard
+    file={file}
+    setFile={setFile}
+    jobDescription={jobDescription}
+    setJobDescription={setJobDescription}
+    analyzeResume={analyzeResume}
+    loading={loading}
+  />
+</div>
       {result && (
 
-        <div className="result-container">
+<div className="result-container" ref={reportRef}>
 
           {/* ATS CARD */}
 
@@ -221,10 +255,11 @@ function App() {
 
 {/* AI Suggestions */}
 
-<SuggestionCard
+<div ref={suggestionsRef}>
+  <SuggestionCard
     suggestions={result.ai_analysis.suggestions}
-/>
-
+  />
+</div>
 {/* Resume Roadmap */}
 
 <RoadmapCard
@@ -233,13 +268,15 @@ function App() {
 
 {/* Interview Questions */}
 
-<InterviewCard
+<div ref={interviewRef}>
+  <InterviewCard
     questions={result.ai_analysis.interview_questions}
-/>
+  />
+</div>
 
 {/* Download Button */}
 
-<div className="download-section">
+<div className="download-section" ref={settingsRef}>
 
 <button
   className="download-btn"

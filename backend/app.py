@@ -1,7 +1,13 @@
+print("✅ LOADED MY APP.PY")
+
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
+
+from database import engine
+from models.user import Base
+from auth import router as auth_router
 
 from utils.pdf_parser import extract_text_from_pdf
 from utils.ats import calculate_ats
@@ -12,6 +18,16 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Create database tables
+Base.metadata.create_all(bind=engine)
+
+# Register authentication routes
+app.include_router(
+    auth_router,
+    prefix="/auth",
+    tags=["Authentication"]
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,14 +36,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Home Route
+# ---------------- HOME ----------------
+
 @app.get("/")
 def home():
     return {
         "message": "AI Resume Analyzer Backend Running 🚀"
     }
 
-# Upload Resume Route
+# ---------------- UPLOAD ----------------
+
 @app.post("/upload-resume")
 async def upload_resume(file: UploadFile = File(...)):
 
@@ -45,7 +63,8 @@ async def upload_resume(file: UploadFile = File(...)):
         "text": extracted_text
     }
 
-# Analyze Resume Route
+# ---------------- ANALYZE ----------------
+
 @app.post("/analyze")
 async def analyze(
     file: UploadFile = File(...),

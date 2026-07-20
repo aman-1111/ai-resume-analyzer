@@ -1,0 +1,155 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+.auth-page{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    overflow:hidden;
+    position:relative;
+}
+
+.auth-page::before{
+    content:"";
+    width:450px;
+    height:450px;
+    background:#60a5fa;
+    border-radius:50%;
+    position:absolute;
+    left:-120px;
+    top:-120px;
+    opacity:.25;
+    filter:blur(80px);
+}
+
+.auth-page::after{
+    content:"";
+    width:350px;
+    height:350px;
+    background:#22d3ee;
+    border-radius:50%;
+    position:absolute;
+    right:-80px;
+    bottom:-80px;
+    opacity:.25;
+    filter:blur(80px);
+}
+
+.auth-container{
+    width:1000px;
+    max-width:92%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border-radius:25px;
+    overflow:hidden;
+    backdrop-filter:blur(25px);
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.left-panel{
+    color:white;
+    padding:70px 50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.left-panel h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.left-panel p{
+    color:#dbeafe;
+    line-height:1.8;
+    margin-bottom:30px;
+}
+
+.feature{
+    margin:15px 0;
+    font-size:18px;
+}
+
+.right-panel{
+    background:white;
+    padding:60px 50px;
+}
+
+.right-panel h2{
+    margin-bottom:30px;
+    color:#1e293b;
+}
+
+.input-box{
+    margin-bottom:20px;
+    position:relative;
+}
+
+.input-box svg{
+    position:absolute;
+    left:15px;
+    top:16px;
+    color:#2563eb;
+}
+
+.input-box input{
+    width:100%;
+    padding:15px 15px 15px 45px;
+    border-radius:12px;
+    border:1px solid #d1d5db;
+    font-size:16px;
+    outline:none;
+}
+
+.input-box input:focus{
+    border-color:#2563eb;
+}
+
+.auth-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.auth-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+
+.switch-text{
+    text-align:center;
+    margin-top:20px;
+}
+
+.switch-text a{
+    color:#2563eb;
+    text-decoration:none;
+    font-weight:600;
+}
+
+@media(max-width:900px){
+
+.auth-container{
+grid-template-columns:1fr;
+}
+
+.left-panel{
+display:none;
+}
+
+}

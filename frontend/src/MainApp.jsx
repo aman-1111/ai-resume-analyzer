@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
+import { generateATSResume } from "./services/resumeService";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -15,6 +17,8 @@ import RoadmapCard from "./components/RoadmapCard";
 import InterviewCard from "./components/InterviewCard";
 
 function App() {
+  const navigate = useNavigate();
+
   const [file, setFile] = useState(null);
   const [jobDescription, setJobDescription] = useState("");
   const [result, setResult] = useState(null);
@@ -130,6 +134,8 @@ function App() {
       return;
     }
 
+   
+
     const formData = new FormData();
 
     formData.append("file", file);
@@ -149,6 +155,39 @@ function App() {
       alert("Analysis failed.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGenerateATSResume = async () => {
+    console.log("Generate ATS Resume button clicked");
+    if (!result) {
+      alert("Please analyze the resume first.");
+      return;
+    }
+  
+    try {
+      const data = await generateATSResume({
+        resume_text: result.resume_text,
+        job_description: result.job_description,
+      });
+  
+      // ✅ Check if backend returned an error
+      if (!data.success) {
+        alert(data.message);
+        return;
+      }
+  
+      navigate("/resume-builder", {
+        state: {
+          generatedResume: data,
+          resumeText: result.resume_text,
+          jobDescription: result.job_description,
+        },
+      });
+  
+    } catch (error) {
+      console.error(error);
+      alert("Failed to generate ATS Resume.");
     }
   };
 
@@ -274,17 +313,26 @@ function App() {
   />
 </div>
 
+{/* Generate ATS Resume */}
+
+<div className="builder-section">
+<button
+  className="builder-btn"
+  onClick={handleGenerateATSResume}
+>
+  🚀 Generate ATS Resume
+</button>
+</div>
+
 {/* Download Button */}
 
-<div className="download-section" ref={settingsRef}>
-
-<button
-  className="download-btn"
-  onClick={downloadReport}
->
-  📄 Download PDF Report
-</button>
-
+<div className="builder-section">
+  <button
+    className="download-btn"
+    onClick={downloadReport}
+  >
+    📄 Download Report
+  </button>
 </div>
 
 </div>

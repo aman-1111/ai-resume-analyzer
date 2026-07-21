@@ -7,7 +7,9 @@ import os
 
 from database import engine
 from models.user import Base
+
 from auth import router as auth_router
+from routes.resume import router as resume_router
 
 from utils.pdf_parser import extract_text_from_pdf
 from utils.ats import calculate_ats
@@ -21,13 +23,20 @@ app = FastAPI(
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-# Register authentication routes
+# Register Authentication Routes
 app.include_router(
     auth_router,
     prefix="/auth",
     tags=["Authentication"]
 )
 
+# Register Resume Builder Routes
+app.include_router(
+    resume_router,
+    tags=["Resume Builder"]
+)
+
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -36,7 +45,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------------- HOME ----------------
+
+# ==========================================
+# Home
+# ==========================================
 
 @app.get("/")
 def home():
@@ -44,7 +56,10 @@ def home():
         "message": "AI Resume Analyzer Backend Running 🚀"
     }
 
-# ---------------- UPLOAD ----------------
+
+# ==========================================
+# Upload Resume
+# ==========================================
 
 @app.post("/upload-resume")
 async def upload_resume(file: UploadFile = File(...)):
@@ -63,7 +78,10 @@ async def upload_resume(file: UploadFile = File(...)):
         "text": extracted_text
     }
 
-# ---------------- ANALYZE ----------------
+
+# ==========================================
+# Analyze Resume
+# ==========================================
 
 @app.post("/analyze")
 async def analyze(
@@ -92,5 +110,7 @@ async def analyze(
 
     return {
         "ats": ats_result,
-        "ai_analysis": ai_result
+        "ai_analysis": ai_result,
+        "resume_text": resume_text,
+        "job_description": job_description
     }
